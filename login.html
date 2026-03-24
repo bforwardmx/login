@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BFORWARD Logistics — Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #06205c;
+      --navy-deep:  #040f2e;
+      --blue-accent:#1a4db5;
+      --white:      #ffffff;
+      --gray:       #8899bb;
+      --error:      #e05252;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Barlow', sans-serif;
+      background: var(--navy-deep);
+      color: var(--white);
+      overflow: hidden;
+    }
+
+    .page {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      height: 100vh;
+    }
+
+    /* COLUMNA IZQUIERDA */
+    .hero { position: relative; overflow: hidden; }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(4,15,46,0.10) 0%, rgba(4,15,46,0.72) 100%),
+        url('https://bf.bforward.cloud/assets/8c078e86-4f3b-4775-9ba0-7ffd2727fb31?width=1200') center / cover no-repeat;
+      transform: scale(1.04);
+      animation: subtleDrift 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes subtleDrift {
+      from { transform: scale(1.04) translateX(0); }
+      to   { transform: scale(1.08) translateX(-1.5%); }
+    }
+
+    .hero-content {
+      position: relative; z-index: 2;
+      height: 100%;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 56px 52px;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 5px 14px; border-radius: 2px;
+      margin-bottom: 20px; width: fit-content;
+      animation: fadeUp 0.9s ease both;
+    }
+
+    .hero-line {
+      width: 48px; height: 3px;
+      background: var(--blue-accent);
+      margin-bottom: 22px;
+      animation: fadeUp 0.9s 0.05s ease both;
+    }
+
+    .hero-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(38px, 4vw, 64px);
+      font-weight: 800; line-height: 1.0;
+      letter-spacing: -0.01em; text-transform: uppercase;
+      color: var(--white);
+      animation: fadeUp 0.9s 0.10s ease both;
+    }
+    .hero-title span { color: rgba(255,255,255,0.35); }
+
+    .hero-sub {
+      font-size: 13px; font-weight: 300;
+      color: rgba(255,255,255,0.5);
+      margin-top: 14px; letter-spacing: 0.04em;
+      animation: fadeUp 0.9s 0.18s ease both;
+    }
+
+    /* COLUMNA DERECHA */
+    .panel {
+      background: var(--navy-deep);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 52px 44px;
+      position: relative;
+      border-left: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .panel::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+
+    .panel-inner { position: relative; z-index: 1; }
+
+    .brand { margin-bottom: 44px; animation: fadeUp 0.7s ease both; }
+
+    .brand-logo {
+      display: block;
+      width: 170px;
+      height: auto;
+    }
+
+    .brand-bar {
+      width: 32px; height: 2px;
+      background: var(--blue-accent);
+      margin-top: 14px;
+    }
+
+    .brand-fallback {
+      display: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px; font-weight: 800;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .form-heading {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px; font-weight: 600;
+      letter-spacing: 0.20em; text-transform: uppercase;
+      color: var(--gray); margin-bottom: 26px;
+      animation: fadeUp 0.7s 0.08s ease both;
+    }
+
+    .field { margin-bottom: 16px; animation: fadeUp 0.7s 0.14s ease both; }
+    .field2 { animation-delay: 0.19s; }
+
+    .field label {
+      display: block;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--gray); margin-bottom: 7px;
+    }
+
+    .field input {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 3px; padding: 13px 16px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px; color: var(--white); outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .field input::placeholder { color: rgba(255,255,255,0.18); }
+    .field input:focus {
+      border-color: var(--blue-accent);
+      background: rgba(26,77,181,0.10);
+    }
+
+    .error-msg {
+      display: none;
+      font-size: 12px; color: var(--error);
+      margin-bottom: 14px; padding: 10px 14px;
+      background: rgba(224,82,82,0.10);
+      border-left: 3px solid var(--error);
+      border-radius: 2px;
+      animation: shake 0.35s ease;
+    }
+    @keyframes shake {
+      0%,100%{ transform:translateX(0)   }
+      25%    { transform:translateX(-5px) }
+      75%    { transform:translateX( 5px) }
+    }
+
+    .btn-login {
+      width: 100%; background: var(--navy);
+      border: none; border-radius: 3px; padding: 15px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--white); cursor: pointer;
+      position: relative; overflow: hidden;
+      transition: background 0.2s, transform 0.12s;
+      margin-top: 10px;
+      animation: fadeUp 0.7s 0.24s ease both;
+    }
+    .btn-login::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+      transform: translateX(-100%);
+      transition: transform 0.5s;
+    }
+    .btn-login:hover  { background: var(--blue-accent); transform: translateY(-1px); }
+    .btn-login:hover::after { transform: translateX(100%); }
+    .btn-login:active { transform: translateY(0); }
+    .btn-login:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    .spinner {
+      display: inline-block;
+      width: 13px; height: 13px;
+      border: 2px solid rgba(255,255,255,0.25);
+      border-top-color: white; border-radius: 50%;
+      animation: spin 0.65s linear infinite;
+      vertical-align: middle; margin-right: 8px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .panel-footer {
+      margin-top: 40px; padding-top: 22px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      font-size: 11px; color: rgba(255,255,255,0.18);
+      letter-spacing: 0.06em;
+      animation: fadeUp 0.7s 0.30s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+
+    @media (max-width: 768px) {
+      .page { grid-template-columns: 1fr; }
+      .hero { display: none; }
+      .panel { padding: 48px 28px; justify-content: flex-start; padding-top: 64px; }
+      html, body { overflow: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Portal Operativo</div>
+      <div class="hero-line"></div>
+      <div class="hero-title">Gestión<br><span>Logística</span><br>Integral</div>
+      <p class="hero-sub">Visibilidad en tiempo real &nbsp;·&nbsp; Importación &amp; Exportación</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-inner">
+
+      <div class="brand">
+        <img class="brand-logo"
+             src="https://bf.bforward.cloud/assets/2b5fdb21-75ee-4dfe-93f3-f857c561951c?width=320"
+             alt="BFORWARD Logistics"
+             onerror="this.style.display='none'; document.getElementById('brandFallback').style.display='block';" />
+        <div id="brandFallback" class="brand-fallback">BFORWARD</div>
+        <div class="brand-bar"></div>
+      </div>
+
+      <div class="form-heading">Acceso al sistema</div>
+
+      <div id="errorMsg" class="error-msg"></div>
+
+      <div class="field">
+        <label for="username">Usuario o correo</label>
+        <input id="username" type="text"
+               placeholder="usuario@bforward.com.mx"
+               autocomplete="username" />
+      </div>
+
+      <div class="field field2">
+        <label for="password">Contraseña</label>
+        <input id="password" type="password"
+               placeholder="••••••••"
+               autocomplete="current-password" />
+      </div>
+
+      <button class="btn-login" id="btnLogin" onclick="doLogin()">
+        Iniciar sesión
+      </button>
+
+      <div class="panel-footer">
+        © 2026 BFORWARD Logistics &nbsp;·&nbsp; Acceso restringido al personal autorizado
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+  });
+
+  async function doLogin() {
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value;
+    const btn  = document.getElementById('btnLogin');
+    const err  = document.getElementById('errorMsg');
+
+    if (!user || !pass) {
+      showError('Ingresa tu usuario y contraseña.');
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Verificando...';
+    err.style.display = 'none';
+
+    try {
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ user, password: pass })
+      });
+
+      if (res.ok) {
+        btn.innerHTML = '✓ Acceso concedido';
+        btn.style.background = '#1a5e35';
+        setTimeout(() => { window.location.href = '/'; }, 600);
+      } else {
+        showError('Usuario o contraseña incorrectos.');
+        resetBtn();
+      }
+    } catch (e) {
+      showError('No se pudo conectar. Verifica tu conexión e intenta de nuevo.');
+      resetBtn();
+    }
+  }
+
+  function showError(msg) {
+    const err = document.getElementById('errorMsg');
+    err.textContent = msg;
+    err.style.display = 'block';
+  }
+
+  function resetBtn() {
+    const btn = document.getElementById('btnLogin');
+    btn.disabled = false;
+    btn.innerHTML = 'Iniciar sesión';
+  }
+</script>
+
+</body>
+</html>
